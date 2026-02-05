@@ -11,6 +11,63 @@
   "sections": {
     "hero_custom_FFVCcn": {
       "type": "hero-custom",
+      "blocks": {
+        "button_fctkhL": {
+          "type": "button",
+          "settings": {
+            "label": "Try Suji",
+            "link": "",
+            "style": "primary"
+          }
+        },
+        "button_Kb7QW7": {
+          "type": "button",
+          "settings": {
+            "label": "How It Works",
+            "link": "",
+            "style": "secondary"
+          }
+        },
+        "icon_text_HkWiAi": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "shopify://shop_images/time-icon.svg",
+            "text": "30-day money back guarantee",
+            "text_size": 14,
+            "text_weight": "500",
+            "text_color": "#000000"
+          }
+        },
+        "benefits_3jdA8F": {
+          "type": "benefits",
+          "settings": {
+            "icon": "shopify://shop_images/Vector_21.svg",
+            "text": "Activates Muscles & Builds Strength"
+          }
+        },
+        "benefits_bEwNVJ": {
+          "type": "benefits",
+          "settings": {
+            "icon": "shopify://shop_images/Vector_20.svg",
+            "text": "Boosts Recovery &Circulation"
+          }
+        },
+        "benefits_tcDQpH": {
+          "type": "benefits",
+          "settings": {
+            "icon": "shopify://shop_images/Vector_19.svg",
+            "text": "Supports Healthy Joints & Movement"
+          }
+        }
+      },
+      "block_order": [
+        "button_fctkhL",
+        "button_Kb7QW7",
+        "icon_text_HkWiAi",
+        "benefits_3jdA8F",
+        "benefits_bEwNVJ",
+        "benefits_tcDQpH"
+      ],
       "name": "Hero Custom",
       "settings": {
         "rating_stars": 5,
@@ -29,15 +86,15 @@
         "description_color": "#717171",
         "description_weight": "400",
         "hero_image": "shopify://shop_images/94ce6db994428014172684a7824da9a4cd0b55ac.png",
-        "image_fit": "cover",
-        "image_position": "center center",
+        "image_fit": "scale-down",
+        "image_position": "top center",
         "media_position": "text_first",
         "content_width": 50,
         "content_alignment": "left",
         "mobile_alignment": "center",
         "padding_top": 0,
         "padding_bottom": 0,
-        "color_scheme": "",
+        "color_scheme": "scheme-6483912b-e39f-4e39-80d3-09bf38ce2e2c",
         "full_width": true,
         "full_width_content_padding": 64,
         "full_width_content_padding_mobile": 20
