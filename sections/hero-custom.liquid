@@ -1,0 +1,721 @@
+<section
+  class="hero-custom color-{{ section.settings.color_scheme }}
+  {% if section.settings.full_width %}hero-custom--full-width{% endif %}"
+  style="
+    --text-width: {{ section.settings.content_width }}%;
+    --image-width: calc(100% - {{ section.settings.content_width }}%);
+    --mobile-text-align: {{ section.settings.mobile_alignment }};
+    --mobile-justify: {% if section.settings.mobile_alignment == 'center' %}center{% else %}flex-start{% endif %};
+
+    --rating-mobile-direction: {% if section.settings.rating_mobile_layout == 'stacked' %}column{% else %}row{% endif %};
+    --rating-mobile-align-items: {% if section.settings.rating_mobile_alignment == 'center' %}center{% else %}flex-start{% endif %};
+    --rating-mobile-text-align: {{ section.settings.rating_mobile_alignment }};
+    --title-size-desktop: {{ section.settings.title_size_desktop }}px;
+    --title-size-mobile: {{ section.settings.title_size_mobile }}px;
+    --title-color: {{ section.settings.title_color }};
+    --description-color: {{ section.settings.description_color }};
+    --description-weight: {{ section.settings.description_weight }};
+    --hero-image-fit: {{ section.settings.image_fit }};
+    --hero-image-position: {{ section.settings.image_position }};
+    --full-width-content-padding: {{ section.settings.full_width_content_padding }}px;
+    --full-width-content-padding-mobile: {{ section.settings.full_width_content_padding_mobile }}px;
+
+    --rating-text-size: {{ section.settings.rating_text_size }}px;
+    --rating-text-color: {{ section.settings.rating_text_color }};
+
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    text-align: {{ section.settings.content_alignment }};
+  "
+>
+
+  <div class="hero-custom__container hero-custom__container--{{ section.settings.media_position }}">
+
+    <!-- TEXT CONTENT -->
+    <div class="hero-custom__content">
+
+      {% if section.settings.rating_stars > 0 %}
+        <div class="hero-custom__rating">
+          <div
+            class="hero-custom__stars"
+            style="--star-color: {{ section.settings.rating_color }};"
+          >
+            {% for i in (1..section.settings.rating_stars) %}
+              ★
+            {% endfor %}
+          </div>
+
+          {% if section.settings.rating_text != blank %}
+            <span class="hero-custom__rating-text">
+              {{ section.settings.rating_text }}
+            </span>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      <h1 class="hero-custom__title">
+        {{ section.settings.title }}<br>
+        <em>{{ section.settings.title_emphasis }}</em>
+      </h1>
+
+      {% if section.settings.description != blank %}
+        <p class="hero-custom__description">
+          {{ section.settings.description }}
+        </p>
+      {% endif %}
+
+      {% assign buttons = section.blocks | where: "type", "button" %}
+      {% if buttons.size > 0 %}
+        <div class="hero-custom__buttons">
+          {% for block in buttons %}
+            <a
+              href="{{ block.settings.link }}"
+              class="hero-custom__btn hero-custom__btn--{{ block.settings.style }}"
+              {{ block.shopify_attributes }}
+            >
+              {{ block.settings.label }}
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% assign icon_text_blocks = section.blocks | where: "type", "icon_text" %}
+      {% if icon_text_blocks.size > 0 %}
+        {% for block in icon_text_blocks %}
+        <div
+        class="hero-custom__icon-text"
+        style="
+            --icon-text-size: 14px;
+            --icon-text-color: #363636;
+            --icon-text-weight: {{ block.settings.text_weight }};
+        "
+        {{ block.shopify_attributes }}
+        >           
+        {% if block.settings.icon != blank %}
+              <img
+                src="{{ block.settings.icon | image_url: width: 24 }}"
+                alt=""
+                class="hero-custom__icon-text-icon"
+              >
+            {% endif %}
+
+            {% if block.settings.text != blank %}
+              <span>{{ block.settings.text }}</span>
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      {% assign benefits = section.blocks | where: "type", "benefits" %}
+      {% if benefits.size > 0 %}
+        <div class="hero-custom__benefits">
+          {% for block in benefits %}
+            <div class="hero-custom__benefits" {{ block.shopify_attributes }}>
+              {% if block.settings.icon != blank %}
+                <img
+                  src="{{ block.settings.icon | image_url: width: 40 }}"
+                  alt=""
+                >
+              {% endif %}
+              <span>{{ block.settings.text }}</span>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+    </div>
+
+    <!-- IMAGE -->
+    <div class="hero-custom__image">
+      {% if section.settings.hero_image != blank %}
+        <img
+          src="{{ section.settings.hero_image | image_url: width: 1200 }}"
+          alt=""
+        >
+      {% endif %}
+    </div>
+
+  </div>
+</section>
+
+<style>
+.hero-custom {
+  width: 100%;
+  background: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+}
+
+/* ======================
+   DESKTOP
+====================== */
+
+/* DEFAULT: CONTAINED */
+.hero-custom__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 40px;
+  padding-right: 40px;
+
+  display: grid;
+  grid-template-columns: var(--text-width) var(--image-width);
+  gap: 48px;
+  align-items: center;
+}
+
+/* FULL WIDTH MODE */
+.hero-custom--full-width .hero-custom__container {
+  max-width: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* OPCIONAL: limitar solo el texto */
+.hero-custom--full-width .hero-custom__content {
+  padding-left: var(--full-width-content-padding);
+  padding-right: var(--full-width-content-padding);
+}
+
+.hero-custom__container--image_first {
+  grid-template-areas: "image text";
+}
+
+.hero-custom__container--text_first {
+  grid-template-areas: "text image";
+}
+
+.hero-custom__content {
+  grid-area: text;
+}
+
+.hero-custom__image {
+  grid-area: image;
+}
+
+.hero-custom__image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: var(--hero-image-fit);
+  object-position: var(--hero-image-position);
+}
+
+/* Typography */
+
+.hero-custom__title {
+  font-size: var(--title-size-desktop);
+  color: var(--title-color);
+  line-height: 1.1;
+  margin: 16px 0;
+}
+
+.hero-custom__title em {
+  font-style: italic;
+}
+
+.hero-custom__description {
+  font-size: 16px;
+  margin-bottom: 24px;
+  color: var(--description-color);
+  font-weight: var(--description-weight);
+}
+
+/* Rating */
+
+.hero-custom__rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.hero-custom__stars {
+  color: var(--star-color);
+  letter-spacing: 2px;
+  font-size: 16px;
+}
+
+.hero-custom__rating-text {
+  white-space: nowrap;
+  font-size: var(--rating-text-size);
+  color: var(--rating-text-color);
+}
+
+
+/* Buttons */
+
+.hero-custom__buttons {
+  display: flex;
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.hero-custom__btn {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+}
+
+.hero-custom__btn {
+  padding: 14px 28px;
+  border-radius: var(--buttons-radius);
+  border-width: var(--buttons-border-width);
+  border-color: rgba(var(--color-button), var(--buttons-border-opacity));
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow:
+    var(--buttons-shadow-horizontal-offset)
+    var(--buttons-shadow-vertical-offset)
+    var(--buttons-shadow-blur)
+    rgba(0, 0, 0, var(--buttons-shadow-opacity));
+}
+
+.hero-custom__btn--primary {
+  background: rgb(var(--color-button));
+  color: rgb(var(--color-button-text));
+}
+
+.hero-custom__btn--secondary {
+  border: 2px solid rgb(var(--color-button));
+  color: rgb(var(--color-button));
+}
+
+/* Icon + Text */
+
+.hero-custom__icon-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--icon-text-size, 14px);
+  color: var(--icon-text-color, inherit);
+  font-weight: var(--icon-text-weight, 500);
+  margin-top: 12px;
+}
+
+.hero-custom__icon-text-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Benefits */
+
+.hero-custom__benefits {
+  display: flex;
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.hero-custom__benefits {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+/* ======================
+   MOBILE
+====================== */
+
+@media (max-width: 768px) {
+
+  /* 🔑 MOBILE MANDA */
+  .hero-custom {
+    text-align: var(--mobile-text-align);
+  }
+
+  .hero-custom__container {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 0 20px;
+  }
+
+   .hero-custom--full-width .hero-custom__content {
+    padding-left: var(--full-width-content-padding-mobile);
+    padding-right: var(--full-width-content-padding-mobile);
+    padding-top: var(--full-width-content-padding-mobile);
+    padding-bottom: var(--full-width-content-padding-mobile);
+
+  }
+
+  /* Orden */
+  .hero-custom__content { order: 1; }
+  .hero-custom__buttons { order: 2; }
+  .hero-custom__icon-text { order: 3; }
+  .hero-custom__benefits { order: 4; }
+  .hero-custom__image { order: 5; }
+
+  /* 🔑 Alineación de elementos flex */
+  .hero-custom__buttons,
+  .hero-custom__icon-text,
+  .hero-custom__benefits,
+  .hero-custom__rating {
+    justify-content: var(--mobile-justify);
+  }
+
+  .hero-custom__benefits {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .hero-custom__benefits {
+    width: 100%;
+    justify-content: var(--mobile-justify);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Typography */
+  .hero-custom__title {
+    font-size: 32px;
+  }
+
+  .hero-custom__description {
+    font-size: 15px;
+  }
+    /* 🔑 CONTENEDOR DEL TEXTO */
+  .hero-custom__content {
+    display: flex;
+    flex-direction: column;
+    align-items: var(--mobile-justify);
+  }
+
+  /* Rating necesita alineación explícita */
+  .hero-custom__rating {
+    justify-content: var(--mobile-justify);
+  }
+
+  /* Título y descripción */
+  .hero-custom__title,
+  .hero-custom__description {
+    text-align: var(--mobile-text-align);
+  }
+  
+  /* Rating en columna */
+  .hero-custom__rating {
+    flex-direction: var(--rating-mobile-direction);
+    align-items: var(--rating-mobile-align-items);
+    gap: 6px;
+  }
+
+  /* Estrellas en una sola línea */
+  .hero-custom__stars {
+    display: flex;
+    justify-content: var(--rating-mobile-align);
+    white-space: nowrap;
+  }
+
+  /* Texto debajo, centrado */
+  .hero-custom__rating-text {
+    text-align: var(--rating-mobile-align);
+    white-space: normal;
+  }
+}
+
+</style>
+{% schema %}
+{
+  "name": "Hero Custom",
+  "settings": [
+    {
+      "type": "range",
+      "id": "rating_stars",
+      "label": "Rating stars",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "select",
+      "id": "rating_mobile_layout",
+      "label": "Rating layout (mobile)",
+      "options": [
+        { "value": "inline", "label": "Inline" },
+        { "value": "stacked", "label": "Stacked" }
+      ],
+      "default": "stacked"
+    },
+    {
+      "type": "select",
+      "id": "rating_mobile_alignment",
+      "label": "Rating alignment (mobile)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "color",
+      "id": "rating_color",
+      "label": "Stars color",
+      "default": "#E10600"
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Rating text",
+      "default": "Trusted by 1,000+ happy customers"
+    },
+    {
+      "type": "range",
+      "id": "rating_text_size",
+      "label": "Rating text size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "rating_text_color",
+      "label": "Rating text color",
+      "default": "#000000"
+    },
+
+    { "type": "text", "id": "title", "label": "Title" },
+    { "type": "text", "id": "title_emphasis", "label": "Italic title text" },
+
+    {
+      "type": "range",
+      "id": "title_size_desktop",
+      "label": "Title size (desktop)",
+      "min": 28,
+      "max": 72,
+      "step": 2,
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "label": "Title size (mobile)",
+      "min": 22,
+      "max": 48,
+      "step": 2,
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#000000"
+    },
+
+    { "type": "textarea", "id": "description", "label": "Description" },
+    {
+    "type": "color",
+    "id": "description_color",
+    "label": "Description color",
+    "default": "#000000"
+    },
+    {
+    "type": "select",
+    "id": "description_weight",
+    "label": "Description font weight",
+    "options": [
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semibold (600)" }
+    ],
+    "default": "400"
+    },
+    { "type": "image_picker", "id": "hero_image", "label": "Hero image" },
+    {
+    "type": "select",
+    "id": "image_fit",
+    "label": "Image fit",
+    "options": [
+        { "value": "cover", "label": "Cover (fill area)" },
+        { "value": "contain", "label": "Contain (show full image)" },
+        { "value": "fill", "label": "Fill" },
+        { "value": "none", "label": "None" },
+        { "value": "scale-down", "label": "Scale down" }
+    ],
+    "default": "cover"
+    },
+    {
+    "type": "select",
+    "id": "image_position",
+    "label": "Image position",
+    "options": [
+        { "value": "center center", "label": "Center center" },
+        { "value": "center left", "label": "Center left" },
+        { "value": "center right", "label": "Center right" },
+        { "value": "top center", "label": "Top center" },
+        { "value": "top left", "label": "Top left" },
+        { "value": "top right", "label": "Top right" },
+        { "value": "bottom center", "label": "Bottom center" },
+        { "value": "bottom left", "label": "Bottom left" },
+        { "value": "bottom right", "label": "Bottom right" }
+    ],
+    "default": "center center"
+    },
+
+        {
+        "type": "select",
+        "id": "media_position",
+        "label": "Image placement",
+        "options": [
+            { "value": "image_first", "label": "Image first" },
+            { "value": "text_first", "label": "Text first" }
+        ],
+        "default": "image_first"
+        },
+        {
+        "type": "range",
+        "id": "content_width",
+        "label": "Text column width (%)",
+        "min": 35,
+        "max": 65,
+        "step": 5,
+        "default": 50
+        },
+        {
+        "type": "select",
+        "id": "content_alignment",
+        "label": "Text alignment",
+        "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+        ],
+        "default": "left"
+        },
+    {
+      "type": "select",
+      "id": "mobile_alignment",
+      "label": "Mobile text alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 60
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "background-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width section",
+      "default": false
+    },
+    {
+    "type": "range",
+    "id": "full_width_content_padding",
+    "label": "Full width content horizontal padding (px)",
+    "min": 0,
+    "max": 120,
+    "step": 4,
+    "default": 64
+    },
+    {
+    "type": "range",
+    "id": "full_width_content_padding_mobile",
+    "label": "Full width content horizontal padding (mobile)",
+    "min": 0,
+    "max": 64,
+    "step": 4,
+    "default": 20
+}
+  ],
+
+  "blocks": [
+    {
+      "type": "button",
+      "name": "Button",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label" },
+        { "type": "url", "id": "link", "label": "Link" },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Style",
+          "options": [
+            { "value": "primary", "label": "Primary" },
+            { "value": "secondary", "label": "Secondary" }
+          ],
+          "default": "primary"
+        }
+      ]
+    },
+{
+  "type": "icon_text",
+  "name": "Icon + Text (simple)",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "icon",
+      "label": "Icon (optional)"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "text_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semibold (600)" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    }
+  ]
+},
+    {
+      "type": "benefits",
+      "name": "Feature",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Icon" },
+        { "type": "text", "id": "text", "label": "Text" }
+      ]
+    }
+  ],
+
+  "presets": [
+    { "name": "Hero Custom" }
+  ]
+}
+{% endschema %}
+
+

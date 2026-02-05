@@ -1,0 +1,579 @@
+<section
+  class="science-stats"
+  style="
+    --align-desktop: {{ section.settings.text_align_desktop }};
+    --align-mobile: {{ section.settings.text_align_mobile }};
+    --section-width: {{ section.settings.section_width }};
+
+    /* TITLE */
+    --title-size-desktop: {{ section.settings.title_size_desktop }}px;
+    --title-size-mobile: {{ section.settings.title_size_mobile }}px;
+    --title-color: {{ section.settings.title_color }};
+
+    --mobile-cols: {{ section.settings.mobile_columns }};
+
+    --pt-desktop: {{ section.settings.padding_top_desktop }}px;
+    --pb-desktop: {{ section.settings.padding_bottom_desktop }}px;
+    --pl-desktop: {{ section.settings.padding_left_desktop }}px;
+    --pr-desktop: {{ section.settings.padding_right_desktop }}px;
+
+    --pt-mobile: {{ section.settings.padding_top_mobile }}px;
+    --pb-mobile: {{ section.settings.padding_bottom_mobile }}px;
+    --pl-mobile: {{ section.settings.padding_left_mobile }}px;
+    --pr-mobile: {{ section.settings.padding_right_mobile }}px;
+
+    --stat-weight: {{ section.settings.stat_font_weight }};
+    --stat-size: {{ section.settings.stat_font_size }}px;
+    --stat-size-mobile: {{ section.settings.stat_font_size_mobile }}px;
+    --stat-color: {{ section.settings.stat_color }};
+
+    --stat-subtitle-weight: {{ section.settings.stat_subtitle_weight }};
+    --stat-subtitle-size: {{ section.settings.stat_subtitle_size }}px;
+    --stat-subtitle-color: {{ section.settings.stat_subtitle_color }};
+
+    --stat-desc-weight: {{ section.settings.stat_desc_weight }};
+    --stat-desc-size: {{ section.settings.stat_desc_size }}px;
+    --stat-desc-color: {{ section.settings.stat_desc_color }};
+  "
+>
+
+  <div class="science-stats__container">
+
+    <!-- IMAGE -->
+    <div class="science-stats__image">
+      {% if section.settings.image %}
+        <img
+          src="{{ section.settings.image | image_url: width: 900 }}"
+          alt="{{ section.settings.image.alt | escape }}"
+          loading="lazy"
+        >
+      {% endif %}
+    </div>
+
+    <!-- CONTENT -->
+    <div class="science-stats__content">
+
+      <h2 class="science-stats__title">
+    <span class="science-stats__title-line">
+        {{ section.settings.title_line_1 }}
+    </span>
+    <span class="science-stats__title-line science-stats__title-line--italic">
+        {{ section.settings.title_line_2 }}
+    </span>
+    </h2>
+
+      {% assign current_group_open = false %}
+
+      {% for block in section.blocks %}
+        {% case block.type %}
+
+          {% when 'group' %}
+            {% if current_group_open %}
+              </div>
+            {% endif %}
+
+            <div class="science-stats__group" {{ block.shopify_attributes }}>
+              <em class="science-stats__group-em">
+                {{ block.settings.group_em }}
+              </em>
+
+              <span class="science-stats__divider"></span>
+
+              <div class="science-stats__stats-grid">
+                {% assign current_group_open = true %}
+
+          {% when 'stat' %}
+            <div class="science-stats__stat" {{ block.shopify_attributes }}>
+                <p class="science-stats__stat-subtitle">
+                {{ block.settings.stat_subtitle }}
+                </p>
+
+                <h3 class="science-stats__value">
+                {{ block.settings.value }}
+                </h3>
+
+                <p class="science-stats__description">
+                {{ block.settings.description }}
+                </p>
+            </div>
+
+        {% endcase %}
+      {% endfor %}
+
+      {% if current_group_open %}
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+</section>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+h3 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+}
+
+.science-stats__title {
+  line-height: 1.1;
+}
+
+.science-stats__title-line {
+  display: block;
+  font-weight: 700;
+}
+
+.science-stats__title-line--italic {
+  font-style: italic;
+  font-weight: 600;
+}
+
+.science-stats {
+  background: var(--bg-color);
+  padding:
+    var(--pt-desktop)
+    var(--pr-desktop)
+    var(--pb-desktop)
+    var(--pl-desktop);
+}
+
+.science-stats__container {
+  width: 100%;
+  margin: 0 auto;
+  max-width: var(--section-width);
+  display: grid;
+  grid-template-columns: 50% 50%;
+  gap: 64px;
+  align-items: center;
+}
+
+/* STATS FONT SYSTEM */
+.science-stats__stat,
+.science-stats__stat * {
+  font-family: 'Inter', sans-serif;
+}
+
+/* STAT ELEMENTS */
+.science-stats__stat-subtitle {
+  color: var(--stat-color);
+  font-size: calc(var(--stat-size) * 0.35);
+  font-weight: 400;
+}
+
+.science-stats__value {
+  color: var(--stat-color);
+  font-size: var(--stat-size);
+  font-weight: var(--stat-weight);
+  margin-top:0px! important;
+  margin-bottom:0px! important;
+
+}
+
+.science-stats__description {
+  color: var(--stat-color);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+
+}
+
+/* IMAGE */
+.science-stats__image {
+padding: 0px 0px 60px 40px !important;
+}
+
+.science-stats__image img {
+  width: 100%;
+  display: block;
+}
+
+/* CONTENT */
+.science-stats__content {
+  text-align: left;
+  max-width: 540px;
+  margin: 0;
+}
+
+.science-stats__stat {
+  text-align: left;
+}
+
+
+.science-stats__title {
+  color: var(--title-color);
+  font-weight: 700;
+  margin-top: 0px !important;
+  margin-bottom: 12px;
+  font-size: var(--title-size-desktop);
+  color: var(--title-color);
+}
+
+.science-stats__subtitle {
+  display: block;
+  color: var(--text-color);
+  margin-bottom: 40px;
+}
+
+.science-stats__stat-subtitle {
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 6px;
+  letter-spacing:-0.7px;
+  color: #262D33;
+}
+
+
+/* GROUP */
+.science-stats__group {
+  margin-top: 48px;
+}
+
+.science-stats__group-em {
+  font-weight: 500;
+  display: block;
+  margin-bottom: 12px;
+  font-style: normal;
+}
+
+.science-stats__divider {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: #ccc;
+  margin: 0 auto 32px;
+}
+
+/* STATS GRID */
+.science-stats__stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px 48px;
+}
+
+
+.science-stats__description {
+  margin-top: 6px;
+  color: var(--text-color);
+}
+
+/* MOBILE */
+ @media (max-width: 768px) {
+  .science-stats__container {
+    grid-template-columns: 1fr;
+    gap: 0px !important;
+  }
+
+  .science-stats__title {
+    font-size: var(--title-size-mobile);
+  }
+
+
+  .science-stats__image {
+    padding: 0px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .science-stats__image img {
+    max-width: 500px;
+  }
+
+  .science-stats__content {
+    text-align: center;
+    margin: 0 auto;
+    padding: 0 !important;
+  }
+
+  .science-stats__stats-grid {
+    grid-template-columns: repeat(var(--mobile-cols), 1fr);
+    justify-items: center;
+  }
+
+  .science-stats__stat {
+    text-align: center;
+  }
+
+  .science-stats__divider {
+    margin: 0 auto 32px;
+  }
+
+   .science-stats__value {
+    font-size: var(--stat-size-mobile);
+  }
+
+  .science-stats {
+    padding:
+      var(--pt-mobile)
+      var(--pr-mobile)
+      var(--pb-mobile)
+      var(--pl-mobile);
+  }
+
+  .science-stats__content {
+    text-align: var(--align-mobile);
+  }
+}
+</style>
+{% schema %}
+{
+  "name": "Science Stats",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Imagen"
+    },
+    {
+    "type": "text",
+    "id": "title_line_1",
+    "label": "Título – línea 1",
+    "default": "Backed by Science."
+    },
+    {
+    "type": "text",
+    "id": "title_line_2",
+    "label": "Título – línea 2 (italic)",
+    "default": "Proven by Results."
+    },
+    {
+    "type": "range",
+    "id": "title_size_desktop",
+    "label": "Tamaño título (Desktop)",
+    "min": 24,
+    "max": 80,
+    "step": 2,
+    "default": 48
+    },
+    {
+    "type": "range",
+    "id": "title_size_mobile",
+    "label": "Tamaño título (Mobile)",
+    "min": 20,
+    "max": 56,
+    "step": 2,
+    "default": 36
+    },
+        {
+    "type": "color",
+    "id": "title_color",
+    "label": "Color del título",
+    "default": "#1c1c1c"
+    },
+        {
+      "type": "select",
+      "id": "mobile_columns",
+      "label": "Columnas en mobile",
+      "options": [
+        { "value": "1", "label": "1 columna" },
+        { "value": "2", "label": "2 columnas" }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Color fondo",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Color título",
+      "default": "#000000"
+    },
+        {
+    "type": "select",
+    "id": "text_align_desktop",
+    "label": "Alineación texto (Desktop)",
+    "options": [
+        { "value": "left", "label": "Izquierda" },
+        { "value": "center", "label": "Centro" },
+        { "value": "right", "label": "Derecha" }
+    ],
+    "default": "left"
+    },
+    {
+    "type": "select",
+    "id": "text_align_mobile",
+    "label": "Alineación texto (Mobile)",
+    "options": [
+        { "value": "left", "label": "Izquierda" },
+        { "value": "center", "label": "Centro" },
+        { "value": "right", "label": "Derecha" }
+    ],
+    "default": "center"
+    },
+    {
+  "type": "range",
+  "id": "padding_top_desktop",
+  "label": "Padding top desktop",
+  "min": 0,
+  "max": 200,
+  "step": 4,
+  "default": 96
+},
+{
+  "type": "range",
+  "id": "padding_bottom_desktop",
+  "label": "Padding bottom desktop",
+  "min": 0,
+  "max": 200,
+  "step": 4,
+  "default": 96
+},
+{
+  "type": "range",
+  "id": "padding_left_desktop",
+  "label": "Padding left desktop",
+  "min": 0,
+  "max": 120,
+  "step": 4,
+  "default": 0
+},
+{
+  "type": "range",
+  "id": "padding_right_desktop",
+  "label": "Padding right desktop",
+  "min": 0,
+  "max": 120,
+  "step": 4,
+  "default": 0
+},
+{
+  "type": "range",
+  "id": "padding_top_mobile",
+  "label": "Padding top mobile",
+  "min": 0,
+  "max": 160,
+  "step": 4,
+  "default": 64
+},
+{
+  "type": "range",
+  "id": "padding_bottom_mobile",
+  "label": "Padding bottom mobile",
+  "min": 0,
+  "max": 160,
+  "step": 4,
+  "default": 64
+},
+{
+  "type": "range",
+  "id": "padding_left_mobile",
+  "label": "Padding left mobile",
+  "min": 0,
+  "max": 40,
+  "step": 4,
+  "default": 24
+},
+{
+  "type": "range",
+  "id": "padding_right_mobile",
+  "label": "Padding right mobile",
+  "min": 0,
+  "max": 40,
+  "step": 4,
+  "default": 24
+},
+{
+  "type": "range",
+  "id": "stat_font_size",
+  "label": "Tamaño valor estadística",
+  "min": 24,
+  "max": 80,
+  "step": 2,
+  "default": 48
+},
+
+{
+  "type": "range",
+  "id": "stat_font_size_mobile",
+  "label": "Tamaño valor estadística (Mobile)",
+  "min": 20,
+  "max": 64,
+  "step": 2,
+  "default": 36
+},
+
+{
+  "type": "select",
+  "id": "stat_font_weight",
+  "label": "Font weight estadísticas",
+  "options": [
+    { "value": "400", "label": "Regular" },
+    { "value": "500", "label": "Medium" },
+    { "value": "600", "label": "Semibold" },
+    { "value": "700", "label": "Bold" }
+  ],
+  "default": "700"
+},
+{
+  "type": "select",
+  "id": "section_width",
+  "label": "Ancho de la sección",
+  "options": [
+    { "value": "100%", "label": "Full width" },
+    { "value": "1200px", "label": "Caja (1200px)" },
+    { "value": "1320px", "label": "Caja (1320px)" }
+  ],
+  "default": "1200px"
+},
+{
+  "type": "color",
+  "id": "stat_color",
+  "label": "Color estadísticas",
+  "default": "#111111"
+},
+
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Color texto",
+      "default": "#333333"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "group",
+      "name": "Grupo",
+      "settings": [
+        {
+          "type": "text",
+          "id": "group_em",
+          "label": "Subtítulo del grupo (em)"
+        }
+      ]
+    },
+    {
+  "type": "stat",
+  "name": "Estadística",
+  "settings": [
+    {
+      "type": "text",
+      "id": "stat_subtitle",
+      "label": "Subtítulo de la estadística",
+      "default": "In a clinical study"
+    },
+    {
+      "type": "text",
+      "id": "value",
+      "label": "Valor",
+      "default": "2.0x"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Descripción"
+    }
+  ]
+}
+  ],
+  "presets": [
+    {
+      "name": "Science Stats"
+    }
+  ]
+}
+{% endschema %}

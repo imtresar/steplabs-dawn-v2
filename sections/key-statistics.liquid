@@ -1,0 +1,443 @@
+<section
+  class="key-stats color-{{ section.settings.color_scheme }}"
+  style="
+    --padding-top: {{ section.settings.padding_top }}px;
+    --padding-bottom: {{ section.settings.padding_bottom }}px;
+    --padding-x: {{ section.settings.padding_x }}px;
+
+    --title-color: {{ section.settings.title_color }};
+    --title-size: {{ section.settings.title_size }}px;
+    --title-weight: {{ section.settings.title_weight }};
+
+    --subtitle-color: {{ section.settings.subtitle_color }};
+    --subtitle-size: {{ section.settings.subtitle_size }}px;
+
+    --divider-color: {{ section.settings.divider_color }};
+    --divider-width: {{ section.settings.divider_width }}%;
+
+    --stat-value-color: {{ section.settings.stat_value_color }};
+    --stat-value-size: {{ section.settings.stat_value_size }}px;
+    --stat-value-weight: {{ section.settings.stat_value_weight }};
+
+    --stat-text-color: {{ section.settings.stat_text_color }};
+    --stat-text-size: {{ section.settings.stat_text_size }}px;
+
+    --mobile-columns: {{ section.settings.mobile_columns }};
+    --mobile-align: {{ section.settings.mobile_alignment }};
+    --mobile-justify: {% if section.settings.mobile_alignment == 'center' %}center{% else %}flex-start{% endif %};
+  "
+>
+  <div class="key-stats__container">
+
+    <!-- IMAGE -->
+    <div class="key-stats__image">
+      {% if section.settings.image != blank %}
+        <img src="{{ section.settings.image | image_url: width: 900 }}" alt="">
+      {% endif %}
+    </div>
+
+    <!-- CONTENT -->
+    <div class="key-stats__content">
+
+      <!-- TITLE -->
+      <h2 class="key-stats__title">
+        {{ section.settings.title }}
+        {% if section.settings.title_emphasis != blank %}
+          <em>{{ section.settings.title_emphasis }}</em>
+        {% endif %}
+      </h2>
+
+      {% assign is_group_open = false %}
+
+      {% for block in section.blocks %}
+        {% case block.type %}
+
+          {% when 'group_start' %}
+            {% if is_group_open %}
+              </div>
+            </div>
+            {% endif %}
+
+            <div class="key-stats__group" {{ block.shopify_attributes }}>
+              <div class="key-stats__subtitle">
+                {{ block.settings.subtitle }}
+              </div>
+
+              <hr class="key-stats__divider">
+
+              <div class="key-stats__grid">
+            {% assign is_group_open = true %}
+
+          {% when 'statistic' %}
+            {% if is_group_open %}
+              <div class="key-stats__stat"
+              {{ block.shopify_attributes }}>
+                <div class="key-stats__stat-label">
+                  {{ block.settings.label }}
+                </div>
+                <div class="key-stats__stat-value">
+                  {{ block.settings.value }}
+                </div>
+                <div class="key-stats__stat-text">
+                  {{ block.settings.text }}
+                </div>
+              </div>
+            {% endif %}
+
+          {% when 'group_end' %}
+              </div>
+            </div>
+            {% assign is_group_open = false %}
+
+        {% endcase %}
+      {% endfor %}
+
+      {% if is_group_open %}
+          </div>
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+</section>
+
+
+<style>
+
+.key-stats {
+  padding: var(--padding-top) var(--padding-x) var(--padding-bottom);
+}
+
+.key-stats__stat {
+  padding: 16px 0;
+}
+
+.key-stats__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: center;
+}
+
+.key-stats__image img {
+  width: 100%;
+  display: block;
+}
+
+.key-stats__title {
+  font-size: var(--title-size);
+  font-weight: var(--title-weight);
+  color: var(--title-color);
+  line-height: 1.1;
+  margin-bottom: 24px;
+}
+
+.key-stats__title em {
+  display: block;
+  font-style: italic;
+}
+
+.key-stats__group {
+  margin-bottom: 40px;
+}
+
+.key-stats__subtitle {
+  font-size: var(--subtitle-size);
+  color: var(--subtitle-color);
+  margin-bottom: 12px;
+}
+
+.key-stats__divider {
+  width: var(--divider-width);
+  height: 1px;
+  background: var(--divider-color);
+  margin: 16px 0 32px;
+  border: none;
+}
+
+.key-stats__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px 32px;
+}
+
+.key-stats__stat-value {
+  font-size: var(--stat-value-size);
+  font-weight: var(--stat-value-weight);
+  color: var(--stat-value-color);
+}
+
+.key-stats__stat-text {
+  font-size: var(--stat-text-size);
+  color: var(--stat-text-color);
+}
+
+/* ============ MOBILE ============ */
+
+@media (max-width: 768px) {
+  .key-stats__container {
+    grid-template-columns: 1fr;
+  }
+
+ .key-stats[style*="--mobile-columns: 2"] .key-stats__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    text-align: center !important;
+  }
+
+  .key-stats__grid {
+    display: flex;
+    flex-direction: column;
+    align-items: var(--mobile-justify);
+    width: 100%;
+  }
+
+  .key-stats__content {
+    display: flex;
+    flex-direction: column;
+    align-items: var(--mobile-justify);
+    text-align: var(--mobile-align);
+  }
+}
+
+</style>
+{% schema %}
+{
+  "name": "Key Statistics",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Left image"
+    },
+
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Key Statistics"
+    },
+    {
+      "type": "text",
+      "id": "title_emphasis",
+      "label": "Title emphasis (italic)",
+      "default": "That Matter"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size (desktop)",
+      "min": 28,
+      "max": 72,
+      "step": 2,
+      "default": 48,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Title weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle color",
+      "default": "#666666"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Subtitle size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider color",
+      "default": "#DDDDDD"
+    },
+    {
+      "type": "range",
+      "id": "divider_width",
+      "label": "Divider width",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "default": 40,
+      "unit": "%"
+    },
+
+    {
+      "type": "color",
+      "id": "stat_value_color",
+      "label": "Statistic value color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "stat_value_size",
+      "label": "Statistic value size",
+      "min": 20,
+      "max": 64,
+      "step": 2,
+      "default": 36,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "stat_value_weight",
+      "label": "Statistic value weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+
+    {
+      "type": "color",
+      "id": "stat_text_color",
+      "label": "Statistic text color",
+      "default": "#666666"
+    },
+    {
+      "type": "range",
+      "id": "stat_text_size",
+      "label": "Statistic text size",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_x",
+      "label": "Padding left & right",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 24,
+      "unit": "px"
+    },
+
+    {
+      "type": "select",
+      "id": "mobile_columns",
+      "label": "Statistics layout (mobile)",
+      "options": [
+        { "value": "1", "label": "1 column" },
+        { "value": "2", "label": "2 columns (2x2)" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "select",
+      "id": "mobile_alignment",
+      "label": "Mobile content alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "background-1"
+    }
+  ],
+
+  "blocks": [
+    {
+      "type": "statistic",
+      "name": "Statistic",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Metric"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": "98%"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Description",
+          "default": "Customer satisfaction"
+        },
+      ]
+    },
+    {
+  "type": "group_start",
+  "name": "Statistics Group,
+  "settings": [
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Group subtitle",
+      "default": "Why brands trust us"
+    }
+  ]
+}
+  ],
+
+  "presets": [
+    {
+      "name": "Key Statistics"
+    }
+  ]
+}
+{% endschema %} 
