@@ -104,8 +104,44 @@
         </div>
       {% endif %}
 
+      {% for block in section.blocks %}
+  {% if block.type == 'cta' %}
+    <a href="{{ block.settings.url }}" style="display:inline-block; padding:12px 24px; border:1px solid black;">
+      {{ block.settings.label }}
+    </a>
+  {% endif %}
+{% endfor %}
+
     </div>
-  </div>
+  </div>        <div class="hero-custom__buttons">
+
+  {% assign buttons = section.blocks | where: "type", "button" %}
+      {% if buttons.size > 0 %}
+        <div class="hero-custom__buttons">
+          {% for block in buttons %}
+<a 
+    href="{{ block.settings.url }}"
+    style="display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border:1px solid black;border-radius: 30px;text-decoration:none;color:#262D33;font-family:Inter;font-weight:500;"
+  >
+    {{ block.settings.label }}
+
+    <img 
+      src="{{ 'icon-arrow-button.svg' | asset_url }}"
+      alt=""
+      width="16"
+      height="16">
+  </a>
+</div>
+</div>
+          {% endfor %}
+      {% endif %}
+  {% for block in section.blocks %}
+  {% if block.type == 'references' %}
+    <div class="science-stats__references">
+      {{ block.settings.references_text }}
+    </div>
+  {% endif %}
+{% endfor %}
 </section>
 
 <style>
@@ -114,6 +150,14 @@
 h3 {
   font-family: 'Inter', sans-serif;
   font-weight: 700;
+}
+
+.science-stats__references {
+  margin-top: 16px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-color, #555);
+  max-width: 520px;
 }
 
 .science-stats__title {
@@ -227,7 +271,7 @@ padding: 0px 0px 60px 40px !important;
 
 /* GROUP */
 .science-stats__group {
-  margin-top: 48px;
+  margin-top: 0px;
 }
 
 .science-stats__group-em {
@@ -243,6 +287,43 @@ padding: 0px 0px 60px 40px !important;
   height: 1px;
   background: #ccc;
   margin: 0 auto 32px;
+}
+
+/* Buttons */
+
+.hero-custom__buttons {
+  display: flex;
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.hero-custom__btn {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+}
+
+.hero-custom__btn {
+  padding: 14px 28px;
+  border-radius: var(--buttons-radius);
+  border-width: var(--buttons-border-width);
+  border-color: rgba(var(--color-button), var(--buttons-border-opacity));
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow:
+    var(--buttons-shadow-horizontal-offset)
+    var(--buttons-shadow-vertical-offset)
+    var(--buttons-shadow-blur)
+    rgba(0, 0, 0, var(--buttons-shadow-opacity));
+}
+
+.hero-custom__btn--primary {
+  background: rgb(var(--color-button));
+  color: rgb(var(--color-button-text));
+}
+
+.hero-custom__btn--secondary {
+  border: 2px solid rgb(var(--color-button));
+  color: rgb(var(--color-button));
 }
 
 /* STATS GRID */
@@ -265,15 +346,24 @@ padding: 0px 0px 60px 40px !important;
     gap: 0px !important;
   }
 
+  /* 🔑 Alineación de elementos flex */
+  .hero-custom__buttons {
+    justify-content: center;
+  }
+
   .science-stats__title {
     font-size: var(--title-size-mobile);
   }
 
 
   .science-stats__image {
-    padding: 0px;
+    padding: 0px 0px 60px 0px !important;
     display: flex;
     justify-content: center;
+  }
+
+    .science-stats__group {
+    margin-top: 40px !important;
   }
 
   .science-stats__image img {
@@ -283,7 +373,7 @@ padding: 0px 0px 60px 40px !important;
   .science-stats__content {
     text-align: center;
     margin: 0 auto;
-    padding: 0 !important;
+    padding: 20px !important;
   }
 
   .science-stats__stats-grid {
@@ -355,12 +445,7 @@ padding: 0px 0px 60px 40px !important;
     "step": 2,
     "default": 36
     },
-        {
-    "type": "color",
-    "id": "title_color",
-    "label": "Color del título",
-    "default": "#1c1c1c"
-    },
+        
         {
       "type": "select",
       "id": "mobile_columns",
@@ -546,6 +631,37 @@ padding: 0px 0px 60px 40px !important;
         }
       ]
     },
+     {
+      "type": "button",
+      "name": "Button",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label" },
+        { "type": "url", "id": "link", "label": "Link" },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Style",
+          "options": [
+            { "value": "primary", "label": "Primary" },
+            { "value": "secondary", "label": "Secondary" }
+          ],
+          "default": "primary"
+        },
+
+      ]
+    },  
+    {
+  "type": "references",
+  "name": "Referencias científicas",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "references_text",
+      "label": "Texto de referencias",
+      "default": "¹Yasuda et al., 2010 ²Loenneke et al., 2012\n³Takarada et al., 2000 ⁴Hughes et al., 2017"
+    }
+  ]
+},
     {
   "type": "stat",
   "name": "Estadística",
