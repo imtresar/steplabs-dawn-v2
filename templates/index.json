@@ -99,9 +99,110 @@
         "full_width_content_padding": 64,
         "full_width_content_padding_mobile": 20
       }
+    },
+    "science_stats_PFwqLk": {
+      "type": "science-stats",
+      "blocks": {
+        "group_dkQbHW": {
+          "type": "group",
+          "settings": {
+            "group_em": "BUILD LASTING STRENGTH IN JUST 3 SHORT SESSIONS A WEEK"
+          }
+        },
+        "stat_d4NrRg": {
+          "type": "stat",
+          "settings": {
+            "stat_subtitle": "In a clinical study",
+            "value": "2.0x",
+            "description": "muscle strength increase vs\ntraditional low-load training"
+          }
+        },
+        "stat_3aGqae": {
+          "type": "stat",
+          "settings": {
+            "stat_subtitle": "In a systematic review²",
+            "value": "3.2X",
+            "description": "greater muscle mass gains\ncompared to walking or light\ntraining without Targeted\nCompression/BFR"
+          }
+        },
+        "group_CHDT6A": {
+          "type": "group",
+          "settings": {
+            "group_em": "CLINICALLY SHOWN TO SPEED UP RECOVERY"
+          }
+        },
+        "stat_n8kzyV": {
+          "type": "stat",
+          "settings": {
+            "stat_subtitle": "In a recovery study³",
+            "value": "78%",
+            "description": "faster muscle recovery time post-\nexercise with Targeted\nCompression/BFR compared to\npassive rest"
+          }
+        },
+        "stat_i7AEgT": {
+          "type": "stat",
+          "settings": {
+            "stat_subtitle": "In a clinical trial⁴",
+            "value": "40-50%",
+            "description": "pain reduction reported in individuals with chronic musculoskeletal pain"
+          }
+        },
+        "button_cKnbLU": {
+          "type": "button",
+          "settings": {
+            "label": "See The Science",
+            "link": "",
+            "style": "primary"
+          }
+        },
+        "references_bYVCPy": {
+          "type": "references",
+          "settings": {
+            "references_text": "¹Yasuda et al., 2010 ²Loenneke et al., 2012<br>\n³Takarada et al., 2000 ⁴Hughes et al., 2017"
+          }
+        }
+      },
+      "block_order": [
+        "group_dkQbHW",
+        "stat_d4NrRg",
+        "stat_3aGqae",
+        "group_CHDT6A",
+        "stat_n8kzyV",
+        "stat_i7AEgT",
+        "button_cKnbLU",
+        "references_bYVCPy"
+      ],
+      "name": "Science Stats",
+      "settings": {
+        "image": "shopify://shop_images/backed-by-science.webp",
+        "title_line_1": "Backed by Science.",
+        "title_line_2": "Proven by Results.",
+        "title_size_desktop": 48,
+        "title_size_mobile": 36,
+        "mobile_columns": "1",
+        "bg_color": "#ffffff",
+        "title_color": "#262d33",
+        "text_align_desktop": "left",
+        "text_align_mobile": "center",
+        "padding_top_desktop": 40,
+        "padding_bottom_desktop": 40,
+        "padding_left_desktop": 0,
+        "padding_right_desktop": 0,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 20,
+        "padding_left_mobile": 0,
+        "padding_right_mobile": 0,
+        "stat_font_size": 60,
+        "stat_font_size_mobile": 36,
+        "stat_font_weight": "400",
+        "section_width": "100%",
+        "stat_color": "#111111",
+        "text_color": "#333333"
+      }
     }
   },
   "order": [
-    "hero_custom_FFVCcn"
+    "hero_custom_FFVCcn",
+    "science_stats_PFwqLk"
   ]
 }
