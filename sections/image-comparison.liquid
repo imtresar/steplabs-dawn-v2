@@ -24,6 +24,7 @@
   <div
     class="comparison-container"
     style="--start: {{ section.settings.start_position }}%;"
+    --radius: {{ section.settings.border_radius }}px;
   >
     <img
       src="{{ section.settings.image_left | image_url: width: 2000 }}"
