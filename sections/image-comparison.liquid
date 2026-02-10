@@ -1,0 +1,203 @@
+{% if section.settings.image_left and section.settings.image_right %}
+<div class="comparison-wrapper" data-section-id="{{ section.id }}">
+  <div
+    class="comparison-container"
+    style="--start: {{ section.settings.start_position }}%;"
+  >
+    <img
+      src="{{ section.settings.image_left | image_url: width: 2000 }}"
+      alt="{{ section.settings.label_left }}"
+      class="comparison-image image-left"
+      loading="lazy"
+    >
+
+    <div class="image-right-wrapper">
+      <img
+        src="{{ section.settings.image_right | image_url: width: 2000 }}"
+        alt="{{ section.settings.label_right }}"
+        class="comparison-image image-right"
+        loading="lazy"
+      >
+    </div>
+
+    <span class="label left-label">
+      {{ section.settings.label_left | newline_to_br }}
+    </span>
+
+    <span class="label right-label">
+      {{ section.settings.label_right | newline_to_br }}
+    </span>
+
+    <div class="slider-handle">
+      <span class="slider-line"></span>
+      <span class="slider-circle">⇆</span>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<style>
+.comparison-wrapper {
+  width: 100%;
+  padding: 40px 0;
+}
+
+.comparison-container {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.comparison-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-left {
+  position: absolute;
+  inset: 0;
+}
+
+.image-right-wrapper {
+  position: absolute;
+  inset: 0;
+  width: var(--start);
+  overflow: hidden;
+}
+
+.image-right {
+  position: absolute;
+  inset: 0;
+}
+
+/* Labels */
+.label {
+  position: absolute;
+  top: 16px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  background: rgba(255,255,255,0.75);
+  padding: 6px 10px;
+  z-index: 5;
+}
+
+.left-label { left: 16px; }
+.right-label { right: 16px; }
+
+/* Slider */
+.slider-handle {
+  position: absolute;
+  top: 0;
+  left: var(--start);
+  transform: translateX(-50%);
+  width: 40px;
+  height: 100%;
+  cursor: ew-resize;
+  z-index: 10;
+}
+
+.slider-line {
+  position: absolute;
+  left: 50%;
+  width: 2px;
+  height: 100%;
+  background: white;
+  transform: translateX(-50%);
+}
+
+.slider-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+</style>
+
+<script>
+(() => {
+  const section = document.querySelector('[data-section-id="{{ section.id }}"]');
+  if (!section) return;
+
+  const container = section.querySelector('.comparison-container');
+  const slider = section.querySelector('.slider-handle');
+  const rightImage = section.querySelector('.image-right-wrapper');
+
+  let dragging = false;
+
+  function move(x) {
+    const rect = container.getBoundingClientRect();
+    let pos = x - rect.left;
+    pos = Math.max(0, Math.min(pos, rect.width));
+
+    const percent = (pos / rect.width) * 100;
+    slider.style.left = percent + '%';
+    rightImage.style.width = percent + '%';
+  }
+
+  slider.addEventListener('mousedown', () => dragging = true);
+  window.addEventListener('mouseup', () => dragging = false);
+  window.addEventListener('mousemove', e => dragging && move(e.clientX));
+
+  slider.addEventListener('touchstart', () => dragging = true);
+  window.addEventListener('touchend', () => dragging = false);
+  window.addEventListener('touchmove', e => {
+    if (dragging) move(e.touches[0].clientX);
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Image comparison slider",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image_left",
+      "label": "Left image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_right",
+      "label": "Right image"
+    },
+    {
+      "type": "text",
+      "id": "label_left",
+      "label": "Left label",
+      "default": "SHOT ON\nREPLICA CAMERA"
+    },
+    {
+      "type": "text",
+      "id": "label_right",
+      "label": "Right label",
+      "default": "SHOT ON\nCHUZHAO"
+    },
+    {
+      "type": "range",
+      "id": "start_position",
+      "label": "Initial slider position (%)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image comparison"
+    }
+  ]
+}
+{% endschema %}
