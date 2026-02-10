@@ -1,5 +1,25 @@
 {% if section.settings.image_left and section.settings.image_right %}
 <div class="comparison-wrapper" data-section-id="{{ section.id }}">
+
+  {% if section.settings.title != blank %}
+    <div class="comparison-header">
+      <h2 class="comparison-title">{{ section.settings.title }}</h2>
+      {% if section.settings.subtitle != blank %}
+        <p class="comparison-subtitle">{{ section.settings.subtitle }}</p>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <div class="comparison-labels">
+    <span class="label left-label">
+      {{ section.settings.label_left | newline_to_br }}
+    </span>
+
+    <span class="label right-label">
+      {{ section.settings.label_right | newline_to_br }}
+    </span>
+  </div>
+
   <div
     class="comparison-container"
     style="--start: {{ section.settings.start_position }}%;"
@@ -19,14 +39,6 @@
         loading="lazy"
       >
     </div>
-
-    <span class="label left-label">
-      {{ section.settings.label_left | newline_to_br }}
-    </span>
-
-    <span class="label right-label">
-      {{ section.settings.label_right | newline_to_br }}
-    </span>
 
     <div class="slider-handle">
       <span class="slider-line"></span>
