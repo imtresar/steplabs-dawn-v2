@@ -3,10 +3,10 @@
 
   {% if section.settings.title != blank %}
     <div class="comparison-header">
-      <h2 class="comparison-title">{{ section.settings.title }}</h2>
-      {% if section.settings.subtitle != blank %}
+    {% if section.settings.subtitle != blank %}
         <p class="comparison-subtitle">{{ section.settings.subtitle }}</p>
-      {% endif %}
+    {% endif %}
+      <h2 class="comparison-title">{{ section.settings.title }}</h2>
     </div>
   {% endif %}
 
