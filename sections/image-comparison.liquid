@@ -1,112 +1,54 @@
-{% schema %}
-{
-  "name": "Image comparison",
-  "settings": [
-    {
-      "type": "text",
-      "id": "subtitle",
-      "label": "Subtitle",
-      "default": "CHUZHAO™ THE ORIGINAL DIGITAL TLR 2.0"
-    },
-    {
-      "type": "text",
-      "id": "title",
-      "label": "Title",
-      "default": "The difference shows after the moment passes"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_left",
-      "label": "Left image"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_right",
-      "label": "Right image"
-    },
-    {
-      "type": "text",
-      "id": "label_left",
-      "label": "Left label",
-      "default": "SHOT ON REPLICA CAMERA"
-    },
-    {
-      "type": "text",
-      "id": "label_right",
-      "label": "Right label",
-      "default": "SHOT ON CHUZHAO"
-    },
-    {
-      "type": "range",
-      "id": "start_position",
-      "label": "Initial slider position (%)",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "default": 50
-    },
-    {
-      "type": "range",
-      "id": "border_radius",
-      "label": "Image border radius (px)",
-      "min": 0,
-      "max": 40,
-      "step": 2,
-      "default": 16
-    }
-  ],
-  "presets": [
-    {
-      "name": "Image comparison"
-    }
-  ]
-}
-{% endschema %}
+{% if section.settings.image_left and section.settings.image_right %}
+<div class="comparison-wrapper" data-section-id="{{ section.id }}">
+  <div
+    class="comparison-container"
+    style="--start: {{ section.settings.start_position }}%;"
+  >
+    <img
+      src="{{ section.settings.image_left | image_url: width: 2000 }}"
+      alt="{{ section.settings.label_left }}"
+      class="comparison-image image-left"
+      loading="lazy"
+    >
+
+    <div class="image-right-wrapper">
+      <img
+        src="{{ section.settings.image_right | image_url: width: 2000 }}"
+        alt="{{ section.settings.label_right }}"
+        class="comparison-image image-right"
+        loading="lazy"
+      >
+    </div>
+
+    <span class="label left-label">
+      {{ section.settings.label_left | newline_to_br }}
+    </span>
+
+    <span class="label right-label">
+      {{ section.settings.label_right | newline_to_br }}
+    </span>
+
+    <div class="slider-handle">
+      <span class="slider-line"></span>
+      <span class="slider-circle">⇆</span>
+    </div>
+  </div>
+</div>
+{% endif %}
 
 <style>
-.comparison-editorial {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 64px 20px;
+.comparison-wrapper {
+  width: 100%;
+  padding: 40px 0;
 }
 
-/* Header */
-.comparison-header {
-  text-align: center;
-  margin-bottom: 24px;
-}
-
-.comparison-subtitle {
-  font-size: 12px;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-  opacity: 0.7;
-}
-
-.comparison-title {
-  font-size: 32px;
-  font-weight: 500;
-  line-height: 1.2;
-}
-
-/* Labels outside image */
-.comparison-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-  padding: 0 8px;
-}
-
-/* Comparison */
 .comparison-container {
   position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  border-radius: var(--radius);
+  border-radius: 12px;
 }
 
 .comparison-image {
@@ -132,6 +74,20 @@
   inset: 0;
 }
 
+/* Labels */
+.label {
+  position: absolute;
+  top: 16px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  background: rgba(255,255,255,0.75);
+  padding: 6px 10px;
+  z-index: 5;
+}
+
+.left-label { left: 16px; }
+.right-label { right: 16px; }
+
 /* Slider */
 .slider-handle {
   position: absolute;
@@ -141,7 +97,7 @@
   width: 40px;
   height: 100%;
   cursor: ew-resize;
-  z-index: 5;
+  z-index: 10;
 }
 
 .slider-line {
@@ -158,10 +114,10 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 36px;
-  height: 36px;
   background: white;
   border-radius: 50%;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -202,3 +158,46 @@
 })();
 </script>
 
+{% schema %}
+{
+  "name": "Image comparison slider",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image_left",
+      "label": "Left image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_right",
+      "label": "Right image"
+    },
+    {
+      "type": "text",
+      "id": "label_left",
+      "label": "Left label",
+      "default": "SHOT ON\nREPLICA CAMERA"
+    },
+    {
+      "type": "text",
+      "id": "label_right",
+      "label": "Right label",
+      "default": "SHOT ON\nCHUZHAO"
+    },
+    {
+      "type": "range",
+      "id": "start_position",
+      "label": "Initial slider position (%)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image comparison"
+    }
+  ]
+}
+{% endschema %}
