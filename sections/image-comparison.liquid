@@ -51,10 +51,14 @@
       {{ section.settings.label_right | newline_to_br }}
     </span>
 
-    <div class="slider-handle">
-      <span class="slider-line"></span>
-      <span class="slider-circle">⇆</span>
-    </div>
+    <span class="slider-circle">
+        <img
+            src="{{ 'control-icon.svg' | asset_url }}"
+            alt="Slider control icon"
+            class="slider-icon"
+            loading="lazy"
+        >
+</span>
   </div>
 </div>
 {% endif %}
