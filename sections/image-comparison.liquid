@@ -125,6 +125,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+  max-width: none;
 }
 
 .image-left {
@@ -135,7 +137,7 @@
 .image-right-wrapper {
   position: absolute;
   inset: 0;
-  width: var(--start);
+  width: calc(var(--start) + 1px);
   overflow: hidden;
 }
 
