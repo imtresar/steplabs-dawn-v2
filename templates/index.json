@@ -73,7 +73,7 @@
         "rating_stars": 5,
         "rating_mobile_layout": "stacked",
         "rating_mobile_alignment": "center",
-        "rating_color": "#E10600",
+        "rating_color": "#e10600",
         "rating_text": "Trusted by 1,000+ happy customers",
         "rating_text_size": 14,
         "rating_text_color": "#232223",
@@ -199,10 +199,22 @@
         "stat_color": "#111111",
         "text_color": "#333333"
       }
+    },
+    "image_comparison_j4Rk8j": {
+      "type": "image-comparison",
+      "name": "Image comparison",
+      "settings": {
+        "image_left": "shopify://shop_images/20cfd32bade9a21c93cbf9f3ac68c9ec56c4a722.png",
+        "image_right": "shopify://shop_images/20cfd32bade9a21c93cbf9f3ac68c9ec56c4a722_b245ed32-9261-4047-b5b5-93a8828744e0.png",
+        "label_left": "SHOT ONREPLICA CAMERA",
+        "label_right": "SHOT ONCHUZHAO",
+        "start_position": 50
+      }
     }
   },
   "order": [
     "hero_custom_FFVCcn",
-    "science_stats_PFwqLk"
+    "science_stats_PFwqLk",
+    "image_comparison_j4Rk8j"
   ]
 }
