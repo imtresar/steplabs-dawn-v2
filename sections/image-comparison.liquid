@@ -190,10 +190,19 @@
   justify-content: center;
 }
 
+/* Evita que el SVG o IMG bloquee el drag */
+.slider-circle,
 .slider-circle img,
 .slider-circle svg {
   pointer-events: none;
 }
+
+/* El handle SÍ recibe eventos */
+.slider-handle {
+  pointer-events: auto;
+  touch-action: none; /* CLAVE en mobile */
+}
+
 
 /* Responsive */
 .desktop-only {
