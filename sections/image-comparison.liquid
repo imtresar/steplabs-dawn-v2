@@ -233,9 +233,9 @@
 
   let dragging = false;
 
-  function move(x) {
+  function move(clientX) {
     const rect = container.getBoundingClientRect();
-    let pos = x - rect.left;
+    let pos = clientX - rect.left;
     pos = Math.max(0, Math.min(pos, rect.width));
 
     const percent = (pos / rect.width) * 100;
@@ -243,17 +243,31 @@
     rightImage.style.width = percent + '%';
   }
 
-  slider.addEventListener('mousedown', () => dragging = true);
-  window.addEventListener('mouseup', () => dragging = false);
-  window.addEventListener('mousemove', e => dragging && move(e.clientX));
+  const startDrag = e => {
+    dragging = true;
+    const x = e.touches ? e.touches[0].clientX : e.clientX;
+    move(x);
+  };
 
-  slider.addEventListener('touchstart', () => dragging = true);
-  window.addEventListener('touchend', () => dragging = false);
-  window.addEventListener('touchmove', e => {
-    if (dragging) move(e.touches[0].clientX);
-  });
+  const onDrag = e => {
+    if (!dragging) return;
+    const x = e.touches ? e.touches[0].clientX : e.clientX;
+    move(x);
+  };
+
+  const stopDrag = () => dragging = false;
+
+  slider.addEventListener('mousedown', startDrag);
+  slider.addEventListener('touchstart', startDrag, { passive: true });
+
+  window.addEventListener('mousemove', onDrag);
+  window.addEventListener('touchmove', onDrag, { passive: true });
+
+  window.addEventListener('mouseup', stopDrag);
+  window.addEventListener('touchend', stopDrag);
 })();
 </script>
+
 
 {% schema %}
 {
