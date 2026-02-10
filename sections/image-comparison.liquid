@@ -188,11 +188,22 @@
 })();
 </script>
 
-
 {% schema %}
 {
   "name": "Image comparison slider",
   "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default": "See the Difference"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Section subtitle",
+      "default": "Compare image quality side by side"
+    },
     {
       "type": "image_picker",
       "id": "image_left",
