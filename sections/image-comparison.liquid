@@ -10,7 +10,8 @@
     </div>
   {% endif %}
 
-  <div class="comparison-labels">
+  <!-- Desktop labels -->
+  <div class="comparison-labels desktop-only">
     <span class="label left-label">
       {{ section.settings.label_left | newline_to_br }}
     </span>
@@ -39,6 +40,15 @@
         loading="lazy"
       >
     </div>
+
+    <!-- Mobile labels (inside image) -->
+    <span class="label left-label mobile-only">
+      {{ section.settings.label_left | newline_to_br }}
+    </span>
+
+    <span class="label right-label mobile-only">
+      {{ section.settings.label_right | newline_to_br }}
+    </span>
 
     <div class="slider-handle">
       <span class="slider-line"></span>
