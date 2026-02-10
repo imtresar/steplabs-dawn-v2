@@ -204,10 +204,13 @@
       "type": "image-comparison",
       "name": "Image comparison",
       "settings": {
+        "title": "See the Difference",
+        "subtitle": "Compare image quality side by side",
         "image_left": "shopify://shop_images/20cfd32bade9a21c93cbf9f3ac68c9ec56c4a722.png",
         "image_right": "shopify://shop_images/20cfd32bade9a21c93cbf9f3ac68c9ec56c4a722_b245ed32-9261-4047-b5b5-93a8828744e0.png",
-        "label_left": "SHOT ONREPLICA CAMERA",
-        "label_right": "SHOT ONCHUZHAO",
+        "label_left": "SHOT ON <br>REPLICA CAMERA",
+        "label_right": "SHOT ON <br>CHUZHAO",
+        "border_radius": 12,
         "start_position": 50
       }
     }
