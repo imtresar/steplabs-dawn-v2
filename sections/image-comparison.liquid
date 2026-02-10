@@ -51,9 +51,41 @@
 <style>
 .comparison-wrapper {
   width: 100%;
-  padding: 40px 0;
+  padding: 60px 0;
 }
 
+/* Header */
+.comparison-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.comparison-title {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.comparison-subtitle {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Labels above image */
+.comparison-labels {
+  max-width: 1200px;
+  margin: 0 auto 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.label {
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Image comparison */
 .comparison-container {
   position: relative;
   max-width: 1200px;
@@ -85,20 +117,6 @@
   position: absolute;
   inset: 0;
 }
-
-/* Labels */
-.label {
-  position: absolute;
-  top: 16px;
-  font-size: 12px;
-  letter-spacing: 1px;
-  background: rgba(255,255,255,0.75);
-  padding: 6px 10px;
-  z-index: 5;
-}
-
-.left-label { left: 16px; }
-.right-label { right: 16px; }
 
 /* Slider */
 .slider-handle {
